@@ -5,6 +5,7 @@
 import { painters } from "./placeholders.js";
 
 const images = new Map();
+const variants = new Map(); // logical key -> [loaded sprite keys]
 
 export async function loadAssets() {
   let manifest = {};
@@ -19,14 +20,25 @@ export async function loadAssets() {
       img.src = meta.src;
     })
   ));
+  for (const [key, { meta }] of images) {
+    if (meta.variantOf) {
+      if (!variants.has(meta.variantOf)) variants.set(meta.variantOf, []);
+      variants.get(meta.variantOf).push(key);
+    }
+  }
+  for (const list of variants.values()) list.sort();
 }
 
 export function hasRealArt(key) {
-  return images.has(key);
+  return images.has(key) || variants.has(key);
 }
 
 export function drawSprite(ctx, key, x, y, opts = {}) {
-  const entry = images.get(key);
+  let entry = images.get(key);
+  if (!entry && variants.has(key)) {
+    const list = variants.get(key);
+    entry = images.get(list[(opts.seed ?? 0) % list.length]);
+  }
   if (entry) {
     const { img, meta } = entry;
     const w = opts.w ?? opts.h ?? img.width;
@@ -37,7 +49,7 @@ export function drawSprite(ctx, key, x, y, opts = {}) {
     ctx.drawImage(img, x - w / 2, y - h, w, h);
     return;
   }
-  const painter = painters[key];
+  const painter = painters[opts.fallback ?? key];
   if (painter) painter(ctx, x, y, opts);
 }
 

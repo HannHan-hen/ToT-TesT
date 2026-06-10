@@ -101,37 +101,38 @@ export function buildEntities() {
 
   // --- the boundary ring: rocks / bushes / flowers ---
   const ringRng = makeRng(31337);
-  alongRoundedRect(RING.x, RING.y, RING.w, RING.h, RING.r, 23, (x, y) => {
+  alongRoundedRect(RING.x, RING.y, RING.w, RING.h, RING.r, 30, (x, y) => {
     const jx = x + ringRng.range(-7, 7), jy = y + ringRng.range(-5, 5);
     const roll = ringRng();
-    if (roll < 0.4) add("rock", jx, jy, { h: ringRng.range(22, 38), seed: ringRng.int(1, 9999) });
-    else if (roll < 0.85) add("bush", jx, jy, { h: ringRng.range(30, 50), seed: ringRng.int(1, 9999), flowers: ringRng() < 0.5 });
+    if (roll < 0.4) add("rock", jx, jy, { h: ringRng.range(34, 60), seed: ringRng.int(1, 9999) });
+    else if (roll < 0.85) add("bush", jx, jy, { h: ringRng.range(42, 66), seed: ringRng.int(1, 9999), flowers: ringRng() < 0.5 });
     else add("tuft", jx, jy, { h: 13 });
   });
 
   // --- signs at the edge midpoints, sitting on the ring ---
-  add("sign", W / 2 - 180, RING.y + 8, { h: 70, icon: "tool" });
-  add("sign", RING.x + 4, H / 2 - 40, { h: 66, icon: "fish" });
-  add("sign", RING.x + RING.w - 2, H / 2 - 40, { h: 66, icon: "bird" });
-  add("sign", W / 2, RING.y + RING.h + 4, { h: 70, icon: "leaf" });
+  add("sign_sword", W / 2 - 180, RING.y + 8, { h: 78, fallback: "sign", icon: "tool" });
+  add("sign_fish", RING.x + 4, H / 2 - 40, { h: 74, fallback: "sign", icon: "fish" });
+  add("sign_anvil", RING.x + RING.w - 2, H / 2 - 40, { h: 74, fallback: "sign", icon: "bird" });
+  add("sign_hops", W / 2, RING.y + RING.h + 4, { h: 78, fallback: "sign", icon: "leaf" });
 
   // --- farm contents ---
   add("cottage", 300, 370, { w: 310 });
-  add("logpile", 1010, 250, { h: 78 });
+  add("crate", 1010, 250, { h: 78, fallback: "logpile" });
 
-  // crop plot: 3 x 4 of tilled soil, turnips at assorted growth
+  // crop plot: 3 x 4 tilled cells, turnips at assorted growth
+  // (each generated crop sprite includes its own soil patch)
   const stages = [3, 3, 2, 3, 1, 3, 3, 2, 3, 0, 3, 3];
   let i = 0;
   for (let row = 0; row < 4; row++) {
     for (let col = 0; col < 3; col++) {
       const x = 265 + col * 96, y = 555 + row * 96;
-      addFlat("soil", x, y, { h: 82 });
-      add("turnip", x, y - 16, { stage: stages[i++], h: 56, seed: row * 10 + col });
+      addFlat(`crop_turnip_${stages[i]}`, x, y, { h: 102, fallback: "crop", stage: stages[i] });
+      i++;
     }
   }
 
-  add("character", 790, 520, { h: 92 });
-  add("chicken", 640, 320, { h: 44 });
+  add("farmer", 790, 520, { h: 92, fallback: "character" });
+  add("chicken", 640, 320, { h: 52 });
 
   // a few decorative touches inside the field
   add("rock", 920, 700, { h: 20, seed: 5 });

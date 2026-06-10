@@ -1,5 +1,8 @@
 # Asset prompt packs
 
+> **Status:** Packs 1, 2 and 3 received and integrated (2026-06-10). All
+> placeholder art except ground details is now replaced by generated sprites.
+
 How this works: copy a prompt below into the image generator, attach the
 reference image noted, paste the result into the chat. I (Claude) run it
 through `tools/process_asset.py`, check coherence, and either slot it into

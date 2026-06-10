@@ -160,6 +160,12 @@ export const painters = {
     }
   },
 
+  crop(ctx, x, y, opts = {}) {
+    const s = opts.h ?? 90;
+    painters.soil(ctx, x, y, { h: s * 0.8 });
+    painters.turnip(ctx, x, y - s * 0.14, { stage: opts.stage ?? 3, h: s * 0.55, seed: opts.seed ?? 1 });
+  },
+
   cottage(ctx, x, y, opts = {}) {
     // crude fallback; the real generated asset replaces this
     const w = opts.w ?? 280, h = w * 0.85;

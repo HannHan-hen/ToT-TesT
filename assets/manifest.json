@@ -1,3 +1,36 @@
 {
-  "cottage": { "src": "assets/sprites/cottage_spring.png", "shadowScale": 0.45 }
+  "cottage": { "src": "assets/sprites/cottage_spring.png", "shadowScale": 0.45 },
+
+  "pine_1": { "src": "assets/sprites/pine_1.png", "variantOf": "pine" },
+  "pine_2": { "src": "assets/sprites/pine_2.png", "variantOf": "pine" },
+  "pine_3": { "src": "assets/sprites/pine_3.png", "variantOf": "pine" },
+  "pine_round": { "src": "assets/sprites/pine_round.png", "variantOf": "pine" },
+
+  "tree_1": { "src": "assets/sprites/tree_1.png", "variantOf": "tree" },
+  "tree_2": { "src": "assets/sprites/tree_2.png", "variantOf": "tree" },
+  "tree_3": { "src": "assets/sprites/tree_3.png", "variantOf": "tree" },
+  "tree_blossom": { "src": "assets/sprites/tree_blossom.png", "variantOf": "tree" },
+
+  "rock_s": { "src": "assets/sprites/rock_s.png", "variantOf": "rock" },
+  "rock_m": { "src": "assets/sprites/rock_m.png", "variantOf": "rock" },
+  "rock_l": { "src": "assets/sprites/rock_l.png", "variantOf": "rock" },
+
+  "bush_plain": { "src": "assets/sprites/bush_plain.png", "variantOf": "bush" },
+  "bush_pink": { "src": "assets/sprites/bush_pink.png", "variantOf": "bush" },
+  "bush_white": { "src": "assets/sprites/bush_white.png", "variantOf": "bush" },
+
+  "crop_turnip_0": { "src": "assets/sprites/crop_turnip_0.png", "shadow": false },
+  "crop_turnip_1": { "src": "assets/sprites/crop_turnip_1.png", "shadow": false },
+  "crop_turnip_2": { "src": "assets/sprites/crop_turnip_2.png", "shadow": false },
+  "crop_turnip_3": { "src": "assets/sprites/crop_turnip_3.png", "shadow": false },
+  "soil": { "src": "assets/sprites/soil.png", "shadow": false },
+
+  "sign_fish": { "src": "assets/sprites/sign_fish.png", "shadowScale": 0.3 },
+  "sign_sword": { "src": "assets/sprites/sign_sword.png", "shadowScale": 0.3 },
+  "sign_hops": { "src": "assets/sprites/sign_hops.png", "shadowScale": 0.3 },
+  "sign_anvil": { "src": "assets/sprites/sign_anvil.png", "shadowScale": 0.3 },
+
+  "farmer": { "src": "assets/sprites/farmer.png", "shadowScale": 0.3 },
+  "chicken": { "src": "assets/sprites/chicken.png", "shadowScale": 0.35 },
+  "crate": { "src": "assets/sprites/crate.png", "shadowScale": 0.4 }
 }
