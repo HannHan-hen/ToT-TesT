@@ -48,7 +48,7 @@ export function drawSprite(ctx, key, x, y, opts = {}) {
     const w = opts.w ?? opts.h ?? img.width;
     const h = w * (img.height / img.width);
     if (meta.shadow !== false) {
-      softShadow(ctx, x, y, w * (meta.shadowScale ?? 0.42), w * 0.13);
+      softShadow(ctx, x, y, w * (meta.shadowScale ?? 0.42), meta.shadowAlpha ?? 0.34);
     }
     if (opts.flipX) {
       ctx.save();
@@ -65,13 +65,16 @@ export function drawSprite(ctx, key, x, y, opts = {}) {
   if (painter) painter(ctx, x, y, opts);
 }
 
-function softShadow(ctx, x, y, rx, ry) {
+function softShadow(ctx, x, y, rx, alpha) {
+  // contact shadow: offset slightly down-right to agree with the
+  // top-left sun, denser at the core than the old wash
   ctx.save();
-  ctx.translate(x, y - 4);
+  ctx.translate(x + rx * 0.14, y - 3);
   const g = ctx.createRadialGradient(0, 0, 0, 0, 0, rx);
-  g.addColorStop(0, "rgba(30,40,18,0.25)");
-  g.addColorStop(1, "rgba(30,40,18,0)");
-  ctx.scale(1, ry / rx);
+  g.addColorStop(0, `rgba(28,38,16,${alpha})`);
+  g.addColorStop(0.55, `rgba(28,38,16,${alpha * 0.55})`);
+  g.addColorStop(1, "rgba(28,38,16,0)");
+  ctx.scale(1, 0.34);
   ctx.fillStyle = g;
   ctx.beginPath();
   ctx.arc(0, 0, rx, 0, Math.PI * 2);
