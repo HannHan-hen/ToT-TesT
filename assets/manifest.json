@@ -32,5 +32,7 @@
 
   "farmer": { "src": "assets/sprites/farmer.png", "shadowScale": 0.3 },
   "chicken": { "src": "assets/sprites/chicken.png", "shadowScale": 0.35 },
-  "crate": { "src": "assets/sprites/crate.png", "shadowScale": 0.4 }
+  "crate": { "src": "assets/sprites/crate_logs.png", "shadowScale": 0.4 },
+  "barrels": { "src": "assets/sprites/barrels.png", "shadowScale": 0.4 },
+  "basket": { "src": "assets/sprites/basket.png", "shadowScale": 0.38 }
 }

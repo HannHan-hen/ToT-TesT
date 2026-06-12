@@ -120,11 +120,13 @@ export function buildEntities() {
   // --- farm contents ---
   add("cottage", 300, 370, { w: 310 });
   add("crate", 1010, 250, { h: 78, fallback: "logpile" });
+  add("barrels", 1085, 295, { h: 78, fallback: "logpile" });
+  add("basket", 425, 398, { h: 54, fallback: "bush" });
 
   // crop plot: one continuous tilled patch with plants y-sorted on top
   addFlat("plot", 361, 902, { w: 318, fallback: "soilpatch" });
   const stages = [3, 3, 2, 3, 1, 3, 3, 2, 3, 0, 3, 3];
-  const stageW = [42, 62, 86, 102]; // sprout -> full turnip
+  const stageW = [52, 112, 116, 112]; // honors the sheet's own stage proportions
   let i = 0;
   for (let row = 0; row < 4; row++) {
     for (let col = 0; col < 3; col++) {

@@ -1,7 +1,9 @@
 # Asset prompt packs
 
-> **Status:** Packs 1, 2 and 3 received and integrated (2026-06-10). All
-> placeholder art except ground details is now replaced by generated sprites.
+> **Status:** Packs 1–3 received and integrated, including v2 re-rolls of
+> 2a (plant-only crops), 3a (farmer) and 3c (filled crates — turnip crate
+> and veggie basket banked as spare props). Remaining procedural art:
+> ground/grass texture, smoke, fog, light.
 
 How this works: copy a prompt below into the image generator, attach the
 reference image noted, paste the result into the chat. I (Claude) run it
