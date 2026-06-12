@@ -1,9 +1,18 @@
 # Turnip Hollow 🌱
 
-A small, cute browser farming game — currently a static scene while we get
-the art direction right.
+A small, cute browser farming game.
 
-**Live:** https://hannhan-hen.github.io/ToT-TesT/
+**Play:** https://hannhan-hen.github.io/ToT-TesT/
+
+## How to play
+
+- **WASD / arrow keys** to walk, **Space / E** to interact — or just
+  **click/tap** where you want to go (interacts on arrival).
+- Stand at the tilled field to **plant** turnip seeds in empty cells and
+  **harvest** mature ones. Turnips take **three days** to grow.
+- A day lasts about a minute; nights pass with a fade.
+- Carry your turnips to the **log crate** (top right) to ship them for gold.
+- Progress saves locally in your browser.
 
 ## How it's built
 

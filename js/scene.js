@@ -15,6 +15,20 @@ const RING = { x: 88, y: 78, w: 1104, h: 804, r: 72 };
 // where the cottage chimney is, for the smoke emitter (tuned to the sprite)
 export const CHIMNEY = { x: 330, y: 88 };
 
+// --- gameplay geometry ---
+export const PLOT = [];
+for (let row = 0; row < 3; row++) {
+  for (let col = 0; col < 3; col++) PLOT.push({ x: 265 + col * 96, y: 559 + row * 96 });
+}
+export const STAGE_W = [34, 73, 75, 73]; // plant draw width per growth stage
+export const WALK = { x1: 118, y1: 132, x2: 1162, y2: 854 }; // inside the fence
+export const BLOCKERS = [
+  { x1: 150, y1: 240, x2: 452, y2: 376 },   // cottage footprint
+  { x1: 962, y1: 196, x2: 1058, y2: 258 },  // shipping bin
+  { x1: 1040, y1: 250, x2: 1125, y2: 302 }, // barrels
+];
+export const BIN = { x: 1010, y: 250 }; // the log crate ships produce
+
 export function buildGround() {
   const c = offscreen(W, H);
   const ctx = c.getContext("2d");
@@ -129,18 +143,19 @@ export function buildGround() {
     ctx.roundRect(RING.x + inset, RING.y + inset, RING.w - inset * 2, RING.h - inset * 2, RING.r - inset * 0.5);
     ctx.fill();
   }
+
+  // the tilled plot is static ground; the plants on it are game state
+  drawSprite(ctx, "plot", 361, 777, { w: 303, fallback: "soilpatch" });
   return c;
 }
 
-export function buildEntities() {
-  const c = offscreen(W, H);
-  const ctx = c.getContext("2d");
-  ctx.imageSmoothingQuality = "high";
+// Everything that never moves: trees, fence, cottage, signs, props.
+// Returned as an entity list so dynamic actors (farmer, chicken, crops)
+// can y-sort against it every frame.
+export function buildStaticEntities() {
   const rng = makeRng(99);
   const ents = [];
-  const flats = []; // ground-level tiles (soil) that must never cover sprites
   const add = (key, x, y, opts = {}) => ents.push({ key, x, y, opts });
-  const addFlat = (key, x, y, opts = {}) => flats.push({ key, x, y, opts });
 
   // --- trees outside the ring: a thin band, cropped by the frame ---
   const treeRng = makeRng(1717);
@@ -248,34 +263,11 @@ export function buildEntities() {
   add("barrels", 1085, 295, { h: 78, fallback: "logpile" });
   add("basket", 425, 398, { h: 54, fallback: "bush" });
 
-  // crop plot: one continuous 3x3 tilled patch with plants y-sorted on top,
-  // wrapped snugly around the plant grid and inside the ring (bottom y=850)
-  addFlat("plot", 361, 777, { w: 303, fallback: "soilpatch" });
-  const stages = [3, 2, 3, 1, 3, 2, 3, 0, 3];
-  // sheet's own stage proportions, anchored so a mature plant is ~60% of
-  // farmer height — plants should never outscale the people
-  const stageW = [34, 73, 75, 73];
-  let i = 0;
-  for (let row = 0; row < 3; row++) {
-    for (let col = 0; col < 3; col++) {
-      const st = stages[i++];
-      const x = 265 + col * 96, y = 559 + row * 96;
-      add(`plant_turnip_${st}`, x, y, { h: stageW[st], fallback: "turnip", stage: st });
-    }
-  }
-
-  add("farmer", 790, 520, { h: 122, fallback: "character" });
-  add("chicken", 640, 320, { h: 68 });
-
   // a few decorative touches inside the field
   add("rock", 920, 700, { h: 20, seed: 5 });
   add("bush", 1040, 760, { h: 30, seed: 8, flowers: true });
   add("tuft", 520, 430, { h: 12 });
   add("tuft", 880, 380, { h: 12 });
 
-  // ground tiles first, then painter's algorithm by baseline
-  for (const e of flats) drawSprite(ctx, e.key, e.x, e.y, e.opts);
-  ents.sort((a, b) => a.y - b.y);
-  for (const e of ents) drawSprite(ctx, e.key, e.x, e.y, e.opts);
-  return c;
+  return ents;
 }
