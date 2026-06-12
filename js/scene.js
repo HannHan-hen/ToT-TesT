@@ -8,8 +8,9 @@ import { painters } from "./placeholders.js";
 
 export const W = 1280, H = 960;
 
-// fence ring geometry (the field boundary)
-const RING = { x: 130, y: 110, w: 1020, h: 740, r: 150 };
+// fence ring geometry (the field boundary) — close to the frame, gently
+// rounded corners, like the reference
+const RING = { x: 88, y: 78, w: 1104, h: 804, r: 72 };
 
 // where the cottage chimney is, for the smoke emitter (tuned to the sprite)
 export const CHIMNEY = { x: 330, y: 88 };
@@ -41,7 +42,7 @@ export function buildGround() {
     ctx.fill();
   }
 
-  // fine grass strokes
+  // fine grass strokes, plus denser blade clusters
   ctx.lineWidth = 1.4;
   for (let i = 0; i < 900; i++) {
     const x = rng.range(0, W), y = rng.range(0, H);
@@ -53,6 +54,46 @@ export function buildGround() {
     ctx.moveTo(x, y);
     ctx.quadraticCurveTo(x + rng.range(-2, 2), y - s * 0.7, x + rng.range(-3, 3), y - s);
     ctx.stroke();
+  }
+  for (let i = 0; i < 260; i++) {
+    const cx = rng.range(0, W), cy = rng.range(0, H);
+    const n = rng.int(3, 6);
+    const dark = rng() < 0.5;
+    ctx.strokeStyle = dark
+      ? `rgba(76,102,46,${rng.range(0.25, 0.4)})`
+      : `rgba(160,185,95,${rng.range(0.2, 0.32)})`;
+    ctx.lineWidth = 1.6;
+    for (let b = 0; b < n; b++) {
+      const x = cx + rng.range(-7, 7), y = cy + rng.range(-3, 3);
+      const s = rng.range(5, 10);
+      const lean = rng.range(-3.5, 3.5);
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.quadraticCurveTo(x + lean * 0.5, y - s * 0.6, x + lean, y - s);
+      ctx.stroke();
+    }
+  }
+
+  // dappled light pools
+  for (let i = 0; i < 22; i++) {
+    const x = rng.range(0, W), y = rng.range(0, H);
+    const r = rng.range(70, 190);
+    const g2 = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g2.addColorStop(0, `rgba(205,220,130,${rng.range(0.04, 0.08)})`);
+    g2.addColorStop(1, "rgba(205,220,130,0)");
+    ctx.fillStyle = g2;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, 7);
+    ctx.fill();
+  }
+
+  // fine speckle grain for tooth
+  for (let i = 0; i < 5200; i++) {
+    const dark = rng() < 0.55;
+    ctx.fillStyle = dark
+      ? `rgba(60,82,38,${rng.range(0.04, 0.09)})`
+      : `rgba(190,205,120,${rng.range(0.04, 0.08)})`;
+    ctx.fillRect(rng.range(0, W), rng.range(0, H), rng.range(1, 2.4), rng.range(1, 2.4));
   }
 
   // scattered tiny flowers, denser near the ring
@@ -85,18 +126,18 @@ export function buildEntities() {
   const add = (key, x, y, opts = {}) => ents.push({ key, x, y, opts });
   const addFlat = (key, x, y, opts = {}) => flats.push({ key, x, y, opts });
 
-  // --- trees outside the ring, denser in the corners ---
+  // --- trees outside the ring: a thin band, cropped by the frame ---
   const treeRng = makeRng(1717);
-  alongRoundedRect(RING.x - 35, RING.y - 35, RING.w + 70, RING.h + 70, RING.r, 46, (x, y) => {
-    if (treeRng() < 0.45) return;
+  alongRoundedRect(RING.x - 26, RING.y - 26, RING.w + 52, RING.h + 52, RING.r, 42, (x, y) => {
+    if (treeRng() < 0.38) return;
     // push outward from ring center
     const cx = W / 2, cy = H / 2;
     const dx = x - cx, dy = y - cy;
     const len = Math.hypot(dx, dy);
-    const out = treeRng.range(30, 130);
-    const tx = x + (dx / len) * out + treeRng.range(-25, 25);
-    const ty = y + (dy / len) * out * 0.8 + treeRng.range(-20, 20);
-    if (tx < -40 || tx > W + 40 || ty < 30 || ty > H + 50) return;
+    const out = treeRng.range(10, 64);
+    const tx = x + (dx / len) * out + treeRng.range(-22, 22);
+    const ty = y + (dy / len) * out * 0.8 + treeRng.range(-16, 16);
+    if (tx < -60 || tx > W + 60 || ty < 24 || ty > H + 70) return;
     if (treeRng() < 0.62) add("pine", tx, ty, { h: treeRng.range(100, 170), seed: treeRng.int(1, 9999) });
     else add("tree", tx, ty, { h: treeRng.range(90, 140), seed: treeRng.int(1, 9999) });
   });

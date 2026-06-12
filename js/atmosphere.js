@@ -131,6 +131,30 @@ export function drawAtmosphere(ctx, t) {
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, W, H);
 
+  // 5b. luminous mist frame hugging the very edges (after the vignette so
+  // the rim stays bright), breathing slowly
+  const mistW = 92;
+  const mistA = 0.42 * (0.85 + 0.15 * Math.sin(t * 0.16));
+  const mist = (x1, y1, x2, y2) => {
+    const lg = ctx.createLinearGradient(x1, y1, x2, y2);
+    lg.addColorStop(0, `rgba(253,249,238,${mistA})`);
+    lg.addColorStop(0.55, `rgba(253,249,238,${mistA * 0.35})`);
+    lg.addColorStop(1, "rgba(253,249,238,0)");
+    ctx.fillStyle = lg;
+    ctx.fillRect(0, 0, W, H);
+  };
+  mist(0, 0, mistW, 0);
+  mist(W, 0, W - mistW, 0);
+  mist(0, 0, 0, mistW * 0.85);
+  mist(0, H, 0, H - mistW * 0.85);
+  for (const [cx2, cy2] of [[0, 0], [W, 0], [0, H], [W, H]]) {
+    const rg = ctx.createRadialGradient(cx2, cy2, 0, cx2, cy2, 250);
+    rg.addColorStop(0, `rgba(253,249,238,${mistA * 0.9})`);
+    rg.addColorStop(1, "rgba(253,249,238,0)");
+    ctx.fillStyle = rg;
+    ctx.fillRect(0, 0, W, H);
+  }
+
   // 6. final unifying warm wash
   ctx.save();
   ctx.globalCompositeOperation = "soft-light";

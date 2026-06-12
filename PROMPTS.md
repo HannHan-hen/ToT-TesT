@@ -100,6 +100,22 @@ The shared style suffix used in every prompt:
 > ends; a crate overflowing with turnips; a low woven basket of vegetables;
 > a small stack of wooden barrels. [style suffix]
 
+## Pack 4 — the ground
+
+### 4a. Grass texture (single, full-bleed — no magenta this time)
+> A square seamless texture of soft meadow grass seen straight from above,
+> for a cozy storybook farming game: muted warm yellow-green, gentle
+> painterly blade clusters and subtle tonal patches, completely uniform
+> soft lighting, no shadows, no vignette, no objects, no border, the
+> pattern continues evenly to all four edges. Painterly pixel-art hybrid
+> matching the attached cottage's palette.
+
+### 4b. Ground decals (one image, 3x2 grid, magenta background)
+> A 3x2 sprite sheet grid of tiny ground decorations, same style as the
+> attached cottage: a small grass tuft, a larger leaning grass tuft, a
+> cluster of three tiny white daisies, a cluster of small yellow flowers,
+> three little grey pebbles, a patch of tiny clover leaves. [style suffix]
+
 ---
 
 ## Processing cheatsheet (my side)
