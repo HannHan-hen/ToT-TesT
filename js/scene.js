@@ -124,8 +124,8 @@ export function buildEntities() {
   add("basket", 425, 398, { h: 54, fallback: "bush" });
 
   // crop plot: one continuous 3x3 tilled patch with plants y-sorted on top,
-  // kept well inside the boundary ring (ring bottom edge is at y=850)
-  addFlat("plot", 361, 808, { w: 318, fallback: "soilpatch" });
+  // wrapped snugly around the plant grid and inside the ring (bottom y=850)
+  addFlat("plot", 361, 777, { w: 303, fallback: "soilpatch" });
   const stages = [3, 2, 3, 1, 3, 2, 3, 0, 3];
   // sheet's own stage proportions, anchored so a mature plant is ~60% of
   // farmer height — plants should never outscale the people
