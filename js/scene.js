@@ -123,17 +123,18 @@ export function buildEntities() {
   add("barrels", 1085, 295, { h: 78, fallback: "logpile" });
   add("basket", 425, 398, { h: 54, fallback: "bush" });
 
-  // crop plot: one continuous tilled patch with plants y-sorted on top
-  addFlat("plot", 361, 902, { w: 318, fallback: "soilpatch" });
-  const stages = [3, 3, 2, 3, 1, 3, 3, 2, 3, 0, 3, 3];
+  // crop plot: one continuous 3x3 tilled patch with plants y-sorted on top,
+  // kept well inside the boundary ring (ring bottom edge is at y=850)
+  addFlat("plot", 361, 808, { w: 318, fallback: "soilpatch" });
+  const stages = [3, 2, 3, 1, 3, 2, 3, 0, 3];
   // sheet's own stage proportions, anchored so a mature plant is ~60% of
   // farmer height — plants should never outscale the people
   const stageW = [34, 73, 75, 73];
   let i = 0;
-  for (let row = 0; row < 4; row++) {
+  for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 3; col++) {
       const st = stages[i++];
-      const x = 265 + col * 96, y = 555 + row * 96;
+      const x = 265 + col * 96, y = 559 + row * 96;
       add(`plant_turnip_${st}`, x, y, { h: stageW[st], fallback: "turnip", stage: st });
     }
   }
