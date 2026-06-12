@@ -116,6 +116,24 @@ The shared style suffix used in every prompt:
 > cluster of three tiny white daisies, a cluster of small yellow flowers,
 > three little grey pebbles, a patch of tiny clover leaves. [style suffix]
 
+## Pack 5 — the mossy fence
+
+> Replaces the bush/rock ring as the main boundary; bushes and rocks stay
+> as accents in front of it. Segments repeat along the boundary with posts
+> hiding the joints, so the segment ends should terminate AT a post.
+
+### 5a. Fence kit (one image, 3x2 grid)
+> A 3x2 sprite sheet grid of pieces of a cute overgrown mossy wooden farm
+> fence, old warm brown wood with green moss patches, same style as the
+> attached cottage, seen from the same high 3/4 angle. Top row: a
+> horizontal fence segment with two rough log rails between two posts,
+> moss on the rails; a second horizontal segment variant with more moss
+> and tiny white flowers; a fence segment running vertically up the
+> screen (receding away from the viewer) with two posts. Bottom row: a
+> corner fence piece turning from horizontal to vertical; a single short
+> mossy fence post; a small closed wooden gate between two posts with a
+> tiny moss-covered arch. [style suffix]
+
 ---
 
 ## Processing cheatsheet (my side)
