@@ -172,7 +172,7 @@ export function buildEntities() {
     // hides under the next segment's post, and runs close with the
     // pixel-identical end post harvested from the original art
     const SCALE = 110 / 341;
-    const OPEN = { fence_h1_open: 270 * SCALE, fence_h2_open: 335 * SCALE };
+    const OPEN = { fence_h1_open: 253 * SCALE, fence_h2_open: 251 * SCALE };
     const chain = (y, x0, x1) => {
       let x = x0;
       while (x1 - x >= 40) {
@@ -202,7 +202,7 @@ export function buildEntities() {
     }
 
     // bushes and rocks: accents beside the fence, never on it
-    for (let i = 0; i < 22; i++) {
+    for (let i = 0; i < 34; i++) {
       const horizontal = ringRng() < 0.6;
       let ax, ay;
       if (horizontal) {
@@ -220,6 +220,12 @@ export function buildEntities() {
       if (ringRng() < 0.55) add("bush", ax, ay, { h: ringRng.range(34, 50), seed: ringRng.int(1, 9999), flowers: ringRng() < 0.5 });
       else add("rock", ax, ay, { h: ringRng.range(26, 44), seed: ringRng.int(1, 9999) });
     }
+
+    // corner flora hides the runs meeting (the right corners get this from
+    // the tree band already; reinforce the left ones)
+    add("pine", sideL + 4, yBot + 38, { h: 195, seed: 4242 });
+    add("bush", sideL + 16, yTop + 30, { h: 58, seed: 777, flowers: true });
+    add("rock", sideL + 44, yTop + 36, { h: 30, seed: 778 });
   } else {
     alongRoundedRect(RING.x, RING.y, RING.w, RING.h, RING.r, 30, (x, y) => {
       const jx = x + ringRng.range(-7, 7), jy = y + ringRng.range(-5, 5);
@@ -230,11 +236,11 @@ export function buildEntities() {
     });
   }
 
-  // --- signs standing in their fence gaps ---
-  add("sign_sword", signTopX, yTop + 10, { h: 78, fallback: "sign", icon: "tool" });
-  add("sign_fish", sideL, signSideY + 46, { h: 74, fallback: "sign", icon: "fish" });
-  add("sign_anvil", sideR, signSideY + 46, { h: 74, fallback: "sign", icon: "bird" });
-  add("sign_hops", signBotX, yBot + 10, { h: 78, fallback: "sign", icon: "leaf" });;
+  // --- signs beside their openings, standing over the fence runs ---
+  add("sign_sword", signTopX - 85, yTop + 10, { h: 78, fallback: "sign", icon: "tool" });
+  add("sign_fish", sideL, signSideY - 48, { h: 74, fallback: "sign", icon: "fish" });
+  add("sign_anvil", sideR, signSideY - 48, { h: 74, fallback: "sign", icon: "bird" });
+  add("sign_hops", signBotX - 85, yBot + 10, { h: 78, fallback: "sign", icon: "leaf" });;
 
   // --- farm contents ---
   add("cottage", 300, 370, { w: 310 });

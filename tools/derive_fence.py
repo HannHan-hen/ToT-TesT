@@ -15,28 +15,31 @@ sys.path.insert(0, "tools")
 from process_asset import chroma_key, trim
 
 
-def crop_right_post(img: Image.Image):
-    """Cut at the left edge of the rightmost post, dropping the post and any
-    detached rail stubs beyond it."""
+def open_segment(img: Image.Image):
+    """Normalize a fence segment for chaining: starts exactly at its leftmost
+    post, ends in bare rails (rightmost post and any detached stubs cut)."""
     a = np.asarray(img)[..., 3]
     h, w = a.shape
     tops = np.array([np.argmax(a[:, x] > 30) if (a[:, x] > 30).any() else h for x in range(w)])
     rail_top = np.median(tops[w // 3: 2 * w // 3])
     is_post = tops < rail_top - h * 0.08
-    post_cols = np.where(is_post[w // 2:])[0]
+    post_cols = np.where(is_post)[0]
     if len(post_cols) == 0:
         return img, None
-    x = post_cols.max() + w // 2
+    # left edge: snap to the leftmost post (drops stray stubs before it)
+    left = post_cols.min()
+    # right edge: left edge of the rightmost post block
+    x = post_cols.max()
     while x > w // 2 and is_post[x]:
         x -= 1
-    post_block = img.crop((x - 2, 0, w, h))
-    return img.crop((0, 0, x + 4, h)), trim(post_block)
+    post_block = trim(img.crop((x - 2, 0, w, h)))
+    return img.crop((max(0, left - 2), 0, x + 4, h)), post_block
 
 
 def main():
     for name in ["fence_h1", "fence_h2"]:
         src = Image.open(f"assets/sprites/{name}.png").convert("RGBA")
-        out, endpost = crop_right_post(src)
+        out, endpost = open_segment(src)
         out.save(f"assets/sprites/{name}_open.png")
         print(f"{name}: {src.size} -> open {out.size}")
         if endpost and name == "fence_h1":
