@@ -33,6 +33,10 @@ export function hasRealArt(key) {
   return images.has(key) || variants.has(key);
 }
 
+export function getImage(key) {
+  return images.get(key)?.img ?? null;
+}
+
 export function drawSprite(ctx, key, x, y, opts = {}) {
   let entry = images.get(key);
   if (!entry && variants.has(key)) {
@@ -46,7 +50,15 @@ export function drawSprite(ctx, key, x, y, opts = {}) {
     if (meta.shadow !== false) {
       softShadow(ctx, x, y, w * (meta.shadowScale ?? 0.42), w * 0.13);
     }
-    ctx.drawImage(img, x - w / 2, y - h, w, h);
+    if (opts.flipX) {
+      ctx.save();
+      ctx.translate(x, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(img, -w / 2, y - h, w, h);
+      ctx.restore();
+    } else {
+      ctx.drawImage(img, x - w / 2, y - h, w, h);
+    }
     return;
   }
   const painter = painters[opts.fallback ?? key];

@@ -30,6 +30,21 @@
   "sign_hops": { "src": "assets/sprites/sign_hops.png", "shadowScale": 0.3 },
   "sign_anvil": { "src": "assets/sprites/sign_anvil.png", "shadowScale": 0.3 },
 
+  "grass": { "src": "assets/sprites/grass.png", "shadow": false },
+  "tuft_small": { "src": "assets/sprites/tuft_small.png", "shadow": false },
+  "tuft_large": { "src": "assets/sprites/tuft_large.png", "shadow": false },
+  "daisies": { "src": "assets/sprites/daisies.png", "shadow": false },
+  "buttercups": { "src": "assets/sprites/buttercups.png", "shadow": false },
+  "pebbles": { "src": "assets/sprites/pebbles.png", "shadow": false },
+  "clover": { "src": "assets/sprites/clover.png", "shadow": false },
+
+  "fence_h1": { "src": "assets/sprites/fence_h1.png", "shadow": false },
+  "fence_h2": { "src": "assets/sprites/fence_h2.png", "shadow": false },
+  "fence_v": { "src": "assets/sprites/fence_v.png", "shadow": false },
+  "fence_corner": { "src": "assets/sprites/fence_corner.png", "shadow": false },
+  "fence_post": { "src": "assets/sprites/fence_post.png", "shadow": false },
+  "fence_gate": { "src": "assets/sprites/fence_gate.png", "shadow": false },
+
   "farmer": { "src": "assets/sprites/farmer.png", "shadowScale": 0.3 },
   "chicken": { "src": "assets/sprites/chicken.png", "shadowScale": 0.35 },
   "crate": { "src": "assets/sprites/crate_logs.png", "shadowScale": 0.4 },
